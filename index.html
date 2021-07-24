@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<head>
+    <title>🦸 Superheroes Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+</head>
+
+<body>
+    <h1 id="page-title">&lt; SUPERHEROES DATABASE /&gt;</h1>
+    <h2 class="features" style="text-align: left">✔️ INTERACTIVE SEARCHING<br>✔️ ALPHABETICAL SORTING<br>✔️ FIELD-SPECIFIC SEARCHING<br>✔️ DETAILED CARDS FOR ALL HEROES</h2>
+    <input class="searchbar" type="text" id="searchbar" placeholder="🔎 search for data..." autocomplete="off">
+
+    <!-- SELECTOR 1 (SEARCH FIELD) : -->
+
+    <form>
+        <label class="selector-label" for="field-select">Search field : </label>
+        <select id="field-list">
+                <option value="name" selected>🖋️ NAME</option>
+                <option value="biography.fullName">💳 FULL NAME</option>
+                <option value="appearance.race">🧬 RACE</option>
+                <option value="appearance.gender">🧑‍🤝‍🧑 GENDER</option>
+                <option value="biography.placeOfBirth">🏛️ BIRTHPLACE</option>
+                <option value="biography.alignment">😈 ALIGNMENT</option>
+                <option value="powerstats.intelligence">🧠 POWERSTATS ❯ Intellect</option>
+                <option value="powerstats.strength">💪 POWERSTATS ❯ Strength</option>
+                <option value="powerstats.speed">💨 POWERSTATS ❯ Speed</option>
+                <option value="powerstats.power">💥 POWERSTATS ❯ Power</option>
+                <option value="powerstats.durability">⏳ POWERSTATS ❯ Durability</option>
+                <option value="powerstats.combat">⚔️ POWERSTATS ❯ Combat</option>
+                <option value="any">❓❗ ANY</option>
+            </select>
+
+        <input type="radio" name="inclusion" value="included" id="included-radio" onclick="toggleRadio();" style="margin-left:25px; margin-right:5px" checked><span id="included-text">INCLUDED</span>
+
+        <input type="radio" name="inclusion" value="excluded" id="excluded-radio" onclick="toggleRadio();" style="margin-left:25px; margin-right:5px"><span id="excluded-text">EXCLUDED</span>
+
+        <div id="radioEqual" style="display:none">
+            <input type="radio" name="equal" value="equal" id="equal-radio" onclick="toggleRadio2();" style="margin-left:36.9rem; margin-right:5px," checked><span id="included-text">EQUAL TO...</span>
+
+            <input type="radio" name="equal" value="greater" id="greater-radio" onclick="toggleRadio2();" style="margin-left:25px; margin-right:5px"><span id="excluded-text">GREATER THAN...</span>
+
+            <input type="radio" name="equal" value="less" id="less-radio" onclick="toggleRadio2();" style="margin-left:25px; margin-right:5px"><span id="included-text">LESS THAN...</span>
+        </div>
+
+    </form>
+
+
+
+
+    <!-- SELECTOR 2 (RESULTS PER PAGE) : -->
+
+    <form>
+        <label class="selector-label" for="number-select" style="margin-left:-20%">Results per page : </label>
+        <select id="number-list">
+                <option value=10>10</option>
+                <option value=20 selected>20</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+                <option value=563>ALL</option>
+            </select>
+    </form>
+
+    <!-- TABLE : -->
+
+    <table class="table table-sortable content-table">
+        <thead>
+            <tr>
+                <th rowspan="2" id="pic">🦸</th>
+                <th rowspan="2" id="name" title=" ▲▼ ">🖋️ NAME </th>
+                <th rowspan="2" id="fullname" title=" ▲▼ ">💳 FULLNAME </th>
+                <th rowspan="2" id="race" title=" ▲▼ ">🧬 RACE</th>
+                <th rowspan="2" id="gender" title=" ▲▼ ">🧑‍🤝‍🧑 GENDER</th>
+                <th rowspan="2" id="height" title=" ▲▼ ">📏 HEIGHT</th>
+                <th rowspan="2" id="weight" title=" ▲▼ ">⚖️ WEIGHT</th>
+                <th rowspan="2" id="birthplace" title=" ▲▼ ">🏛️ BIRTHPLACE </th>
+                <th rowspan="2" id="alignment" title=" ▲▼ ">😈 ALIGNMENT</th>
+                <th colspan="6" id="powerstats">💪POWER STATS👊</th>
+            </tr>
+
+            <tr class="powerstats">
+                <th colspan="1">intellect</th>
+                <th colspan="1">strength</th>
+                <th colspan="1">speed</th>
+                <th colspan="1">power</th>
+                <th colspan="1">durability</th>
+                <th colspan="1">combat</th>
+            </tr>
+        </thead>
+
+        <tbody id="results" class="active-row"></tbody>
+    </table>
+
+    <p id="no-result"></p>
+
+    <button class="btn-page" id="btn-previouspage">❮ PREVIOUS PAGE</button>
+    <button class="btn-page" id="btn-nextpage">NEXT PAGE ❯</button>
+
+    <!-- POP-UP DETAIL VIEW : -->
+
+    <div class="popup" id="popup-1">
+        <div class="content">
+            <div class="close-btn" onclick="togglePopup()">❮ CLOSE ❯</div>
+            <div class="slide-container">
+                <div class="wrapper">
+                    <div class="clash-card giant">
+                        <div class="clash-card__image clash-card__image--giant">
+                            <img id="popup-pic" />
+                        </div>
+                        <div class="clash-card__level clash-card__level--giant" id="popup-fullname">Full Name</div>
+                        <div class="clash-card__unit-name" id="popup-name">Name</div>
+                        <div class="clash-card__unit-description" id="popup-description">
+                            Description of the character.
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <h2 class="features" style="text-align: center; margin-top:40px; margin-right: 4.5%; opacity: 0.3">&lt; CREATED BY NICOLAS LÉPINAY /&gt;</h2>
+    </footer>
+
+
+    <script src="script.js"></script>
+    <script src="sort-table.js"></script>
+
+</body>
